@@ -93,8 +93,6 @@ public class ModelTest {
     assertEquals("StockItem-Product", stockitems.get(0).product, products.get(0));
     assertEquals("Product-Tag", products.get(0).tags.get(0), tags.get(0));
     assertEquals("Tag-Product", tags.get(0).products.get(0), products.get(0));
-    System.out.println(warehouses.get(0).address);
-    System.out.println(addresses.get(0));
     assertEquals("Warehouse-Address", warehouses.get(0).address, addresses.get(0));
     assertEquals("Address-Warehouse", addresses.get(0).warehouse, warehouses.get(0));
     
