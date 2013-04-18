@@ -6,6 +6,7 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToMany;
+import play.data.validation.Constraints.Required;
 import play.db.ebean.Model;
 
 /**
@@ -23,29 +24,37 @@ public class Tag extends Model {
   private static final long serialVersionUID = 5476207418180200244L;
 
   /**
-   * The ID number and primary key of the {@link Tag}.
+   * The ID number and primary key of this {@link Tag}.
    */
   @Id
-  public Long id;
+  private Long primaryKey;
 
-  /**
-   * The name of the {@link Tag}.
-   */
-  public String name;
+  @Required
+  private String tagId;
 
   /**
    * The {@link Product}s associated with the {@link Tag}.
    */
   @ManyToMany(mappedBy = "tags", cascade = CascadeType.ALL)
-  public List<Product> products = new ArrayList<>();
+  private List<Product> products = new ArrayList<>();
 
   /**
    * Creates a new {@link Tag} with the given name.
    * 
    * @param name The name of the Tag.
+   * TODO UPDATE
    */
-  public Tag(String name) {
-    this.name = name;
+  public Tag(String tagId) {
+    this.tagId = tagId;
+  }
+
+  /**
+   * Validates the {@link #tagId} of this {@link Tag} to ensure that the tagId does not equal "Tag".
+   * 
+   * @return null if OK, error string if not OK.
+   */
+  public String validate() {
+    return ("Tag".equals(this.tagId)) ? "Invalid tag name" : null;
   }
 
   /**
@@ -55,5 +64,52 @@ public class Tag extends Model {
    */
   public static Finder<Long, Tag> find() {
     return new Finder<Long, Tag>(Long.class, Tag.class);
+  }
+
+  @Override
+  public String toString() {
+    return String.format("[Tag %s ])", tagId);
+  }
+
+  /**
+   * @return the primaryKey
+   */
+  public Long getPrimaryKey() {
+    return this.primaryKey;
+  }
+
+  /**
+   * @param primaryKey the primaryKey to set
+   */
+  public void setPrimaryKey(Long primaryKey) {
+    this.primaryKey = primaryKey;
+  }
+
+  /**
+   * @return the tagId
+   */
+  public String getTagId() {
+    return this.tagId;
+  }
+
+  /**
+   * @param tagId the tagId to set
+   */
+  public void setTagId(String tagId) {
+    this.tagId = tagId;
+  }
+
+  /**
+   * @return the products
+   */
+  public List<Product> getProducts() {
+    return this.products;
+  }
+
+  /**
+   * @param products the products to set
+   */
+  public void setProducts(List<Product> products) {
+    this.products = products;
   }
 }
